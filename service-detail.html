@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Dịch Vụ - GentleBarber</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .detail-container {
+            max-width: 1100px;
+            margin: 140px auto 60px;
+            padding: 0 20px;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+        .detail-image-wrapper {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .detail-image-wrapper img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .detail-image-wrapper:hover img {
+            transform: scale(1.03);
+        }
+        .detail-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .detail-category {
+            align-self: flex-start;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .detail-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-main);
+        }
+        .detail-meta {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        .detail-price {
+            font-family: var(--font-heading);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--gold);
+        }
+        .detail-duration {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .detail-duration span {
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .detail-desc {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+        .detail-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 20px;
+        }
+        .btn-large {
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-large.btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000;
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-large.btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+        }
+        .btn-large.btn-outline {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+        .btn-large.btn-outline:hover {
+            background: var(--bg-card);
+            border-color: var(--text-muted);
+        }
+        /* Đánh giá & Sao */
+        .detail-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-top: -10px;
+            margin-bottom: 5px;
+        }
+        .detail-rating .stars {
+            color: var(--gold);
+            font-size: 18px;
+        }
+        .detail-rating .rating-score {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .reviews-section {
+            margin-top: 80px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 60px;
+        }
+        .reviews-title {
+            font-size: 28px;
+            margin-bottom: 40px;
+            text-align: center;
+            font-family: var(--font-heading);
+            color: var(--text-main);
+        }
+        .reviews-overview {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+        .overview-stars {
+            text-align: center;
+        }
+        .overview-stars h3 {
+            font-size: 48px;
+            color: var(--gold);
+            font-family: var(--font-heading);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        .overview-stars p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .review-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        .review-card:hover {
+            border-color: rgba(212,175,55,0.3);
+            background: rgba(255,255,255,0.03);
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .review-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .review-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .review-user-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .review-date {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .review-rating-stylist {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        .review-stars {
+            color: var(--gold);
+            font-size: 14px;
+        }
+        .review-stylist {
+            font-size: 12px;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.05);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .review-comment {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        /* Dịch vụ liên quan */
+        .related-section {
+            margin-top: 80px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 60px;
+        }
+        .related-title {
+            font-size: 28px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .loading-container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .error-container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        @media (max-width: 900px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .detail-image-wrapper img {
+                height: 350px;
+            }
+            .detail-title {
+                font-size: 32px;
+            }
+            .detail-actions {
+                flex-direction: column;
+            }
+            .btn-large {
+                width: 100%;
+                justify-content: center;
+            }
+            .reviews-overview {
+                flex-direction: column;
+                text-align: center;
+            }
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .review-rating-stylist {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <img src="uploads/logo.png" alt="GentleBarber Logo" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+            <span>GentleBarber</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="services.html" class="active">Bảng giá & Combo</a></li>
+            <li><a href="lookbook.html">Lookbook</a></li>
+            <li><a href="store.html">Gentle Store</a></li>
+            <li><a href="branches.html">Chi nhánh</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+        </ul>
+        <div class="nav-actions">
+            <!-- Rendered by app.js -->
+        </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="detail-container">
+        <!-- LOADING STATE -->
+        <div id="loadingState" class="loading-container">
+            <p style="font-size: 18px; color: var(--text-muted);">Đang tải thông tin dịch vụ...</p>
+        </div>
+
+        <!-- ERROR STATE -->
+        <div id="errorState" class="error-container" style="display: none;">
+            <h2 style="color: var(--danger); margin-bottom: 20px;">Không tìm thấy dịch vụ</h2>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Dịch vụ yêu cầu không tồn tại hoặc đã bị ngừng cung cấp.</p>
+            <a href="services.html" class="btn-gold">Quay lại danh sách dịch vụ</a>
+        </div>
+
+        <!-- DETAIL CONTENT -->
+        <div id="detailContent" style="display: none;">
+            <div class="detail-grid">
+                <!-- Left: Image -->
+                <div class="detail-image-wrapper">
+                    <img id="serviceImg" src="" alt="" onerror="this.src='https://placehold.co/600x500/333333/d4af37?text=Service'">
+                </div>
+
+                <!-- Right: Information -->
+                <div class="detail-info">
+                    <span id="serviceCategory" class="detail-category">...</span>
+                    <h1 id="serviceName" class="detail-title">...</h1>
+                    
+                    <div class="detail-rating" id="serviceRatingStats">
+                        <!-- Rating stats loaded dynamically -->
+                    </div>
+
+                    <div class="detail-meta">
+                        <span id="servicePrice" class="detail-price">...</span>
+                        <div class="detail-duration">
+                            ⏱ Thời gian: <span id="serviceDuration">...</span> phút
+                        </div>
+                    </div>
+
+                    <p id="serviceDesc" class="detail-desc">...</p>
+
+                    <div class="detail-actions">
+                        <a id="btnBookNow" href="#" class="btn-large btn-gold">Đặt Lịch Ngay ✂</a>
+                        <a href="services.html" class="btn-large btn-outline">Quay Lại Bảng Giá</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REVIEWS SECTION -->
+            <div class="reviews-section">
+                <h2 class="reviews-title">Đánh Giá Từ Khách Hàng</h2>
+                <div class="reviews-overview" id="reviewsOverview">
+                    <div class="overview-stars">
+                        <h3 id="avgRatingScore">0.0</h3>
+                        <div class="stars" id="avgRatingStars" style="color: var(--gold); font-size: 22px; margin-bottom: 5px;"></div>
+                        <p id="totalReviewCount" style="color: var(--text-muted); font-size: 14px;">0 đánh giá</p>
+                    </div>
+                </div>
+                <div class="reviews-list" id="reviewsList">
+                    <!-- Dynamic review cards -->
+                </div>
+            </div>
+
+            <!-- RELATED SERVICES -->
+            <div class="related-section">
+                <h2 class="related-title">Dịch Vụ & Combo Khác</h2>
+                <div class="grid" id="relatedGrid">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="brand" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <img src="uploads/logo.png" alt="Logo" style="height: 35px;" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+                    <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--gold);">GentleBarber</span>
+                </a>
+                <p style="color: var(--text-muted); font-size: 14px;">Hệ thống cắt tóc nam & chăm sóc da cao cấp hàng đầu dành cho phái mạnh.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Dịch Vụ</h4>
+                <ul class="footer-links">
+                    <li><a href="services.html">Shine Combo 10 Bước</a></li>
+                    <li><a href="services.html">Cắt tóc tạo kiểu</a></li>
+                    <li><a href="services.html">Uốn & Nhuộm cao cấp</a></li>
+                    <li><a href="services.html">Chăm sóc da mặt</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Khám Phá</h4>
+                <ul class="footer-links">
+                    <li><a href="lookbook.html">Lookbook 2026</a></li>
+                    <li><a href="store.html">Gentle Store</a></li>
+                    <li><a href="booking.html">Đặt lịch trực tuyến</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Liên Hệ</h4>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Hotline: 0999.999.999</p>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Email: support@gentlebarber.com</p>
+                <p style="color: var(--text-muted); font-size: 14px;">Địa chỉ: 123 Đường ABC, Quận 1, TP. HCM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GentleBarber. All rights reserved. Designed for Gentlemen.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const serviceId = urlParams.get('id');
+
+            if (!serviceId) {
+                showError();
+                return;
+            }
+
+            // Tải thông tin chi tiết dịch vụ
+            const res = await apiFetch(`services.php?id=${serviceId}`);
+            
+            if (res.success && res.data) {
+                const service = res.data;
+                
+                // Cập nhật tiêu đề trang
+                document.title = `${service.name} - GentleBarber`;
+
+                // Hiển thị dữ liệu
+                document.getElementById('serviceImg').src = service.image;
+                document.getElementById('serviceImg').alt = service.name;
+                document.getElementById('serviceName').innerText = service.name;
+                
+                const categoryLabels = {
+                    'combo': 'Shine Combo Độc Quyền',
+                    'haircut': 'Cắt & Gội',
+                    'chemical': 'Uốn & Nhuộm',
+                    'skin': 'Chăm sóc da'
+                };
+                document.getElementById('serviceCategory').innerText = categoryLabels[service.category] || service.category.toUpperCase();
+                document.getElementById('servicePrice').innerText = formatCurrency(service.price);
+                document.getElementById('serviceDuration').innerText = service.duration;
+                document.getElementById('serviceDesc').innerText = service.description;
+
+                // Cập nhật nút đặt lịch
+                document.getElementById('btnBookNow').href = `booking.html?service_id=${service.id}`;
+
+                // --- HIỂN THỊ ĐÁNH GIÁ & SAO ---
+                const ratingStatsContainer = document.getElementById('serviceRatingStats');
+                if (service.rating_count > 0) {
+                    const avg = service.rating_avg;
+                    ratingStatsContainer.innerHTML = `
+                        <span class="stars">${'★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg))}</span>
+                        <span class="rating-score">${avg} / 5.0</span>
+                        <span>(${service.rating_count} đánh giá)</span>
+                    `;
+                    document.getElementById('avgRatingScore').innerText = avg;
+                    document.getElementById('avgRatingStars').innerText = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+                    document.getElementById('totalReviewCount').innerText = `${service.rating_count} đánh giá`;
+                } else {
+                    ratingStatsContainer.innerHTML = `
+                        <span class="stars">☆☆☆☆☆</span>
+                        <span class="rating-score">Chưa có đánh giá</span>
+                    `;
+                    document.getElementById('avgRatingScore').innerText = '0.0';
+                    document.getElementById('avgRatingStars').innerText = '☆☆☆☆☆';
+                    document.getElementById('totalReviewCount').innerText = '0 đánh giá';
+                }
+
+                // Danh sách bình luận
+                const reviewsList = document.getElementById('reviewsList');
+                if (service.reviews && service.reviews.length > 0) {
+                    reviewsList.innerHTML = service.reviews.map(r => {
+                        const firstChar = r.fullname ? r.fullname.charAt(0).toUpperCase() : 'K';
+                        const reviewDate = new Date(r.created_at).toLocaleDateString('vi-VN');
+                        return `
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="review-user-info">
+                                        <div class="review-avatar">${firstChar}</div>
+                                        <div>
+                                            <div class="review-user-name">${r.fullname}</div>
+                                            <div class="review-date">${reviewDate}</div>
+                                        </div>
+                                    </div>
+                                    <div class="review-rating-stylist">
+                                        <div class="review-stars">${'★'.repeat(r.rating) + '☆'.repeat(5 - r.rating)}</div>
+                                        <div class="review-stylist">Stylist: ${r.stylist_name}</div>
+                                    </div>
+                                </div>
+                                <p class="review-comment">${r.comment}</p>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    reviewsList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 40px;">Dịch vụ này chưa nhận được đánh giá nào.</p>';
+                }
+
+                // Ẩn loading và hiện nội dung
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('detailContent').style.display = 'block';
+
+                // Tải các dịch vụ liên quan
+                loadRelatedServices(service.category, service.id);
+            } else {
+                showError();
+            }
+        });
+
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        async function loadRelatedServices(category, currentId) {
+            const res = await apiFetch(`services.php?category=${category}`);
+            if (res.success && res.data) {
+                // Lọc bỏ dịch vụ hiện tại và lấy tối đa 3 dịch vụ liên quan
+                const filtered = res.data.filter(s => s.id !== currentId).slice(0, 3);
+                
+                const grid = document.getElementById('relatedGrid');
+                if (filtered.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: var(--text-muted);">Không có dịch vụ liên quan khác.</p>';
+                    return;
+                }
+
+                grid.innerHTML = filtered.map(s => `
+                    <div class="card">
+                        <span class="card-tag">${s.category.toUpperCase()}</span>
+                        <a href="service-detail.html?id=${s.id}">
+                            <img src="${s.image}" alt="${s.name}" class="card-img" onerror="this.src='https://placehold.co/400x300/333333/d4af37?text=Service'">
+                        </a>
+                        <div class="card-content">
+                            <h3 class="card-title">
+                                <a href="service-detail.html?id=${s.id}" style="color: inherit; text-decoration: none;">${s.name}</a>
+                            </h3>
+                            <p class="card-desc">${s.description}</p>
+                            <div class="card-footer">
+                                <span class="card-price">${formatCurrency(s.price)}</span>
+                                <a href="service-detail.html?id=${s.id}" class="btn-outline">Chi Tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+    </script>
+</body>
+</html>

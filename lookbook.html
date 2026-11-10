@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ Sưu Tập Kiểu Tóc - GentleBarber</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <img src="uploads/logo.png" alt="GentleBarber Logo" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+            <span>GentleBarber</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="services.html">Bảng giá & Combo</a></li>
+            <li><a href="lookbook.html">Lookbook</a></li>
+            <li><a href="store.html">Gentle Store</a></li>
+            <li><a href="branches.html">Chi nhánh</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+            <li><a href="face-recommend.html">Thử Kiểu Tóc Ảo</a></li>
+        </ul>
+        <div class="nav-actions">
+            </div>
+    </nav>
+
+    <header class="section-header" style="margin-top: 120px;">
+        <span class="section-subtitle">Xu hướng & Cảm hứng</span>
+        <h1 class="section-title">Lookbook Kiểu Tóc Nam 2026</h1>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0;">Tuyển tập các kiểu tóc nam đẹp, hiện đại và dẫn đầu xu hướng được thiết kế bởi các Master Barber của GentleBarber.</p>
+    </header>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="grid" id="lookbookGrid">
+            <p style="text-align: center; grid-column: 1/-1;">Đang tải bộ sưu tập...</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="brand" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <img src="uploads/logo.png" alt="Logo" style="height: 35px;" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+                    <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--gold);">GentleBarber</span>
+                </a>
+                <p style="color: var(--text-muted); font-size: 14px;">Hệ thống cắt tóc nam & chăm sóc da cao cấp hàng đầu dành cho phái mạnh.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Dịch Vụ</h4>
+                <ul class="footer-links">
+                    <li><a href="services.html">Shine Combo 10 Bước</a></li>
+                    <li><a href="services.html">Cắt tóc tạo kiểu</a></li>
+                    <li><a href="services.html">Uốn & Nhuộm cao cấp</a></li>
+                    <li><a href="services.html">Chăm sóc da mặt</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Khám Phá</h4>
+                <ul class="footer-links">
+                    <li><a href="lookbook.html">Lookbook 2026</a></li>
+                    <li><a href="store.html">Gentle Store</a></li>
+                    <li><a href="booking.html">Đặt lịch trực tuyến</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Liên Hệ</h4>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Hotline: 0999.999.999</p>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Email: support@gentlebarber.com</p>
+                <p style="color: var(--text-muted); font-size: 14px;">Địa chỉ: 123 Đường ABC, Quận 1, TP. HCM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GentleBarber. All rights reserved. Designed for Gentlemen.</p>
+        </div>
+    </footer>
+
+    <div id="galleryLightbox" class="lightbox" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;">
+        <span style="position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer;" onclick="document.getElementById('galleryLightbox').style.display='none'">&times;</span>
+        <img id="lightboxImg" style="max-width: 85%; max-height: 85%; border-radius: 8px; border: 2px solid var(--gold);">
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Tự động kích hoạt gạch chân Menu điều hướng
+            const currentPath = window.location.pathname.split("/").pop() || "index.html";
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            const grid = document.getElementById('lookbookGrid');
+            const res = await apiFetch('lookbooks.php');
+            
+            if (res.success && res.data) {
+                if (res.data.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Chưa có kiểu tóc nào trong Lookbook.</p>';
+                    return;
+                }
+                window.lookbooksData = res.data;
+                const html = window.lookbooksData.map((l, index) => `
+                    <div class="card">
+                        <img src="${l.image}" alt="${l.title}" class="card-img" style="cursor: pointer; height: 280px; object-fit: cover;" onclick="openLookbookGallery(${index}, window.lookbooksData)" title="Click để xem ảnh lớn" onerror="this.src='https://placehold.co/400x300/333333/d4af37?text=Lookbook'">
+                        <div class="card-content">
+                            <h3 class="card-title" style="cursor: pointer;" onclick="openLookbookGallery(${index}, window.lookbooksData)">${l.title}</h3>
+                            <p class="card-desc">${l.description}</p>
+                            <p style="color: var(--gold); font-size: 13px; margin-bottom: 15px;">✓ Hợp với: <strong>${l.face_shape_suitable}</strong></p>
+                            <a href="booking.html?notes=${encodeURIComponent('Chọn kiểu tóc: ' + l.title)}" class="btn-outline" style="display: block; text-align: center;">Đặt Lịch Kiểu Này</a>
+                        </div>
+                    </div>
+                `).join('');
+                grid.innerHTML = html;
+            } else {
+                grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: var(--danger);">Lỗi tải dữ liệu lookbook.</p>';
+            }
+        });
+
+        // Hàm điều khiển popup hiển thị ảnh lớn phóng to
+        function openLookbookGallery(index, list) {
+            if(list && list[index]) {
+                document.getElementById('lightboxImg').src = list[index].image;
+                document.getElementById('galleryLightbox').style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>

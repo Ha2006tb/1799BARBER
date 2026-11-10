@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập / Đăng Ký - GentleBarber</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: var(--bg-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ambient glowing background blobs */
+        .glow-blob {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .glow-blob-1 { top: 10%; left: 5%; }
+        .glow-blob-2 { bottom: 10%; right: 5%; }
+
+        .auth-card {
+            width: 1000px;
+            max-width: 100%;
+            min-height: 600px;
+            background: rgba(26, 26, 26, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 28px;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            z-index: 2;
+        }
+
+        /* Left Side Brand Panel */
+        .auth-brand-panel {
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.85)), 
+                        url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80') no-repeat center center;
+            background-size: cover;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .brand-panel-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-panel-logo img {
+            height: 45px;
+        }
+
+        .brand-panel-logo span {
+            font-family: var(--font-heading);
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-panel-content {
+            margin: 40px 0;
+        }
+
+        .brand-tagline {
+            font-family: var(--font-heading);
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1.3;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .brand-tagline span {
+            color: var(--gold);
+        }
+
+        .brand-perks {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .perk-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .perk-icon {
+            color: var(--gold);
+            font-size: 20px;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            flex-shrink: 0;
+        }
+
+        .perk-text h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .perk-text p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .brand-footer {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Right Side Form Panel */
+        .auth-form-panel {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-header {
+            margin-bottom: 35px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 6px;
+            position: relative;
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .auth-tab.active {
+            color: #000;
+            background: var(--gold);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            animation: formFadeIn 0.4s ease forwards;
+        }
+
+        @keyframes formFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group-custom {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+        }
+
+        .form-group-custom label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .form-group-custom:focus-within label {
+            color: var(--gold);
+        }
+
+        .input-wrapper-custom {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper-custom input {
+            width: 100%;
+            padding: 15px 45px 15px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper-custom input:focus {
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+        }
+
+        /* Password Toggle Button */
+        .password-toggle-btn {
+            position: absolute;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle-btn:hover {
+            color: var(--gold);
+        }
+
+        .btn-submit-premium {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+        }
+
+        .btn-submit-premium:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 900px) {
+            .auth-card {
+                grid-template-columns: 1fr;
+            }
+            .auth-brand-panel {
+                display: none;
+            }
+            .auth-form-panel {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <img src="uploads/logo.png" alt="GentleBarber Logo" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+            <span>GentleBarber</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="services.html">Bảng giá & Combo</a></li>
+            <li><a href="lookbook.html">Lookbook</a></li>
+            <li><a href="store.html">Gentle Store</a></li>
+            <li><a href="branches.html">Chi nhánh</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+        </ul>
+        <div class="nav-actions">
+            <!-- Rendered by app.js -->
+        </div>
+    </nav>
+
+    <!-- AUTH WRAPPER -->
+    <div class="auth-wrapper">
+        <div class="glow-blob glow-blob-1"></div>
+        <div class="glow-blob glow-blob-2"></div>
+
+        <div class="auth-card">
+            <!-- Left Side: Brand Panel -->
+            <div class="auth-brand-panel">
+                <div class="brand-panel-logo">
+                    <img src="uploads/logo.png" alt="Logo" onerror="this.src='https://placehold.co/40x40/d4af37/000000?text=GB'">
+                    <span>GentleBarber</span>
+                </div>
+
+                <div class="brand-panel-content">
+                    <h2 class="brand-tagline">Nơi Bản Lĩnh<br>Được <span>Định Hình</span></h2>
+                    <div class="brand-perks">
+                        <div class="perk-item">
+                            <div class="perk-icon">✂</div>
+                            <div class="perk-text">
+                                <h4>Đặt Lịch Đỉnh Cao</h4>
+                                <p>Chỉ với 3 bước chạm, chọn ngay Barber yêu thích và khu giờ vàng.</p>
+                            </div>
+                        </div>
+                        <div class="perk-item">
+                            <div class="perk-icon">💎</div>
+                            <div class="perk-text">
+                                <h4>Đặc Quyền Thành Viên</h4>
+                                <p>Tích lũy điểm đổi quà, nâng hạng Gold/Diamond nhận ưu đãi trọn đời.</p>
+                            </div>
+                        </div>
+                        <div class="perk-item">
+                            <div class="perk-icon">💈</div>
+                            <div class="perk-text">
+                                <h4>Trải Nghiệm Premium</h4>
+                                <p>Không gian sang trọng cổ điển, nhạc chill và các loại nước uống miễn phí.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="brand-footer">
+                    &copy; 2026 GentleBarber. Mang lại sự tự tin cho phái mạnh.
+                </div>
+            </div>
+
+            <!-- Right Side: Form Panel -->
+            <div class="auth-form-panel">
+                <div class="auth-header">
+                    <div class="auth-tabs">
+                        <div class="auth-tab active" onclick="switchTab('login')">Đăng Nhập</div>
+                        <div class="auth-tab" onclick="switchTab('register')">Đăng Ký</div>
+                    </div>
+                </div>
+
+                <!-- FORM ĐĂNG NHẬP -->
+                <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                    <div class="form-group-custom">
+                        <label>Số điện thoại</label>
+                        <div class="input-wrapper-custom">
+                            <input type="tel" id="loginPhone" required placeholder="Nhập số điện thoại của bạn">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-custom">
+                        <label>Mật khẩu</label>
+                        <div class="input-wrapper-custom">
+                            <input type="password" id="loginPass" required placeholder="Nhập mật khẩu">
+                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('loginPass', this)">👁</button>
+                        </div>
+                        
+                        <div style="text-align: right; margin-top: 4px;">
+                            <a href="#" id="btnForgotPassword" style="color: var(--gold); font-size: 13px; text-decoration: none; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--gold)'">Quên mật khẩu?</a>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit-premium">
+                        <span>Bắt Đầu Hành Trình</span> ➔
+                    </button>
+                </form>
+
+                <!-- FORM ĐĂNG KÝ -->
+                <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+                    <div class="form-group-custom">
+                        <label>Họ và Tên</label>
+                        <div class="input-wrapper-custom">
+                            <input type="text" id="regFullname" required placeholder="Nhập đầy đủ họ tên">
+                        </div>
+                    </div>
+
+                    <div class="form-group-custom">
+                        <label>Số điện thoại</label>
+                        <div class="input-wrapper-custom">
+                            <input type="tel" id="regPhone" required placeholder="Nhập số điện thoại">
+                        </div>
+                    </div>
+
+                    <div class="form-group-custom">
+                        <label>Mật khẩu (Không mã hóa)</label>
+                        <div class="input-wrapper-custom">
+                            <input type="password" id="regPass" required placeholder="Tạo mật khẩu bảo mật">
+                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('regPass', this)">👁</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit-premium">
+                        <span>Đăng Ký Thành Viên</span> ➔
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-bottom" style="margin-top: 0; border: none; background: transparent;">
+            <p>&copy; 2026 GentleBarber. All rights reserved. Designed for Gentlemen.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        // XỬ LÝ SỰ KIỆN BẤM "QUÊN MẬT KHẨU"
+        document.addEventListener('DOMContentLoaded', () => {
+            const forgotBtn = document.getElementById('btnForgotPassword');
+            if (forgotBtn) {
+                forgotBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const phone = prompt("Nhập số điện thoại đã đăng ký để khôi phục mật khẩu:");
+                    if (phone) {
+                        if (!/^\d{10}$/.test(phone)) {
+                            showToast("Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số.", "error");
+                            return;
+                        }
+                        
+                        // Gửi dữ liệu ngầm lên hệ thống
+                        apiFetch('auth.php?action=forgot_password', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ phone })
+                        })
+                        .then(res => {
+                            if (res.success) {
+                                alert(res.message); // Hiển thị mật khẩu tạm thời cho khách bằng Alert cho rõ ràng
+                            } else {
+                                showToast(res.message || "Số điện thoại chưa được đăng ký!", "error");
+                            }
+                        })
+                        .catch(err => showToast("Lỗi kết nối máy chủ!", "error"));
+                    }
+                });
+            }
+        });
+        function switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(el => el.classList.remove('active'));
+
+            if (tab === 'login') {
+                document.querySelector('.auth-tab:nth-child(1)').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab:nth-child(2)').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.innerText = '🙈';
+            } else {
+                input.type = 'password';
+                btn.innerText = '👁';
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const phone = document.getElementById('loginPhone').value;
+            const pass = document.getElementById('loginPass').value;
+
+            const res = await apiFetch('auth.php?action=login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, password: pass })
+            });
+
+            if (res.success && res.data) {
+                setCurrentUser(res.data);
+                showToast(res.message);
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirect = urlParams.get('redirect');
+                
+                setTimeout(() => {
+                    if (redirect) window.location.href = redirect;
+                    else window.location.href = res.data.role === 'admin' ? 'dashboard.html' : 'index.html';
+                }, 1000);
+            } else {
+                showToast(res.message || 'Đăng nhập thất bại', 'error');
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            const fullname = document.getElementById('regFullname').value;
+            const phone = document.getElementById('regPhone').value;
+            const pass = document.getElementById('regPass').value;
+
+            const res = await apiFetch('auth.php?action=register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fullname, phone, password: pass })
+            });
+
+            if (res.success && res.data) {
+                setCurrentUser(res.data);
+                showToast(res.message);
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirect = urlParams.get('redirect');
+
+                setTimeout(() => {
+                    if (redirect) window.location.href = redirect;
+                    else window.location.href = 'index.html';
+                }, 1000);
+            } else {
+                showToast(res.message || 'Đăng ký thất bại', 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('signup') === '1') {
+                switchTab('register');
+            }
+        });
+    </script>
+</body>
+</html>

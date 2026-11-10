@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Sản Phẩm - GentleBarber</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .detail-container {
+            max-width: 1100px;
+            margin: 140px auto 60px;
+            padding: 0 20px;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+        .detail-image-wrapper {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            background: #fff;
+        }
+        .detail-image-wrapper img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .detail-image-wrapper:hover img {
+            transform: scale(1.03);
+        }
+        .detail-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .detail-category {
+            align-self: flex-start;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .detail-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-main);
+        }
+        .detail-meta {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        .detail-price {
+            font-family: var(--font-heading);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--gold);
+        }
+        .detail-stock {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .detail-stock span {
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .detail-desc {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+        .detail-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 20px;
+        }
+        .btn-large {
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+        }
+        .btn-large.btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000;
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-large.btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+        }
+        .btn-large.btn-outline {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+        .btn-large.btn-outline:hover {
+            background: var(--bg-card);
+            border-color: var(--text-muted);
+        }
+
+        /* Sản phẩm liên quan */
+        .related-section {
+            margin-top: 80px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 60px;
+        }
+        .related-title {
+            font-size: 28px;
+            margin-bottom: 40px;
+            text-align: center;
+            font-family: var(--font-heading);
+            font-weight: 800;
+        }
+        .loading-container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .error-container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        @media (max-width: 900px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .detail-image-wrapper img {
+                height: 350px;
+            }
+            .detail-title {
+                font-size: 32px;
+            }
+            .detail-actions {
+                flex-direction: column;
+            }
+            .btn-large {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <img src="uploads/logo.png" alt="GentleBarber Logo" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+            <span>GentleBarber</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="services.html">Bảng giá & Combo</a></li>
+            <li><a href="lookbook.html">Lookbook</a></li>
+            <li><a href="store.html" class="active">Gentle Store</a></li>
+            <li><a href="branches.html">Chi nhánh</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+        </ul>
+        <div class="nav-actions">
+            <!-- Rendered by app.js -->
+        </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="detail-container">
+        <!-- LOADING STATE -->
+        <div id="loadingState" class="loading-container">
+            <p style="font-size: 18px; color: var(--text-muted);">Đang tải thông tin sản phẩm...</p>
+        </div>
+
+        <!-- ERROR STATE -->
+        <div id="errorState" class="error-container" style="display: none;">
+            <h2 style="color: var(--danger); margin-bottom: 20px;">Không tìm thấy sản phẩm</h2>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Sản phẩm yêu cầu không tồn tại hoặc đã ngừng kinh doanh.</p>
+            <a href="store.html" class="btn-gold">Quay lại Gentle Store</a>
+        </div>
+
+        <!-- DETAIL CONTENT -->
+        <div id="detailContent" style="display: none;">
+            <div class="detail-grid">
+                <!-- Left: Image -->
+                <div class="detail-image-wrapper">
+                    <img id="productImg" src="" alt="" onerror="this.src='https://placehold.co/600x500/ffffff/000000?text=Product'">
+                </div>
+
+                <!-- Right: Information -->
+                <div class="detail-info">
+                    <span id="productCategory" class="detail-category">...</span>
+                    <h1 id="productName" class="detail-title">...</h1>
+
+                    <div class="detail-meta">
+                        <span id="productPrice" class="detail-price">...</span>
+                        <div class="detail-stock">
+                            Kho hàng: <span id="productStock">...</span> sản phẩm
+                        </div>
+                    </div>
+
+                    <p id="productDesc" class="detail-desc">...</p>
+
+                    <div class="detail-actions">
+                        <button id="btnAddToCart" class="btn-large btn-gold">Thêm Vào Giỏ 🛒</button>
+                        <a href="store.html" class="btn-large btn-outline">Quay Lại Cửa Hàng</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RELATED PRODUCTS -->
+            <div class="related-section">
+                <h2 class="related-title">Sản Phẩm Cùng Loại</h2>
+                <div class="grid" id="relatedGrid">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="brand" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <img src="uploads/logo.png" alt="Logo" style="height: 35px;" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+                    <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--gold);">GentleBarber</span>
+                </a>
+                <p style="color: var(--text-muted); font-size: 14px;">Hệ thống cắt tóc nam & chăm sóc da cao cấp hàng đầu dành cho phái mạnh.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Dịch Vụ</h4>
+                <ul class="footer-links">
+                    <li><a href="services.html">Shine Combo 10 Bước</a></li>
+                    <li><a href="services.html">Cắt tóc tạo kiểu</a></li>
+                    <li><a href="services.html">Uốn & Nhuộm cao cấp</a></li>
+                    <li><a href="services.html">Chăm sóc da mặt</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Khám Phá</h4>
+                <ul class="footer-links">
+                    <li><a href="lookbook.html">Lookbook 2026</a></li>
+                    <li><a href="store.html">Gentle Store</a></li>
+                    <li><a href="booking.html">Đặt lịch trực tuyến</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Liên Hệ</h4>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Hotline: 0999.999.999</p>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Email: support@gentlebarber.com</p>
+                <p style="color: var(--text-muted); font-size: 14px;">Địa chỉ: 123 Đường ABC, Quận 1, TP. HCM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GentleBarber. All rights reserved. Designed for Gentlemen.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                showError();
+                return;
+            }
+
+            // Tải thông tin chi tiết sản phẩm
+            const res = await apiFetch(`products.php?id=${productId}`);
+            
+            if (res.success && res.data) {
+                const product = res.data;
+                
+                // Cập nhật tiêu đề trang
+                document.title = `${product.name} - GentleBarber`;
+
+                // Hiển thị dữ liệu
+                document.getElementById('productImg').src = product.image;
+                document.getElementById('productImg').alt = product.name;
+                document.getElementById('productName').innerText = product.name;
+                
+                const categoryLabels = {
+                    'wax': 'Sáp Vuốt Tóc',
+                    'shampoo': 'Gầu & Dưỡng Tóc',
+                    'skincare': 'Chăm Sóc Da Mặt'
+                };
+                document.getElementById('productCategory').innerText = categoryLabels[product.category] || product.category.toUpperCase();
+                document.getElementById('productPrice').innerText = formatCurrency(product.price);
+                document.getElementById('productStock').innerText = product.stock;
+                document.getElementById('productDesc').innerText = product.description;
+
+                // Cập nhật nút Thêm vào giỏ
+                const btnAddToCart = document.getElementById('btnAddToCart');
+                btnAddToCart.onclick = function() {
+                    addToCart(product.id, product.name, product.price, product.image);
+                };
+
+                // Ẩn loading và hiện nội dung
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('detailContent').style.display = 'block';
+
+                // Tải các sản phẩm liên quan
+                loadRelatedProducts(product.category, product.id);
+            } else {
+                showError();
+            }
+        });
+
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        async function loadRelatedProducts(category, currentId) {
+            const res = await apiFetch(`products.php?category=${category}`);
+            if (res.success && res.data) {
+                // Lọc bỏ sản phẩm hiện tại và lấy tối đa 3 sản phẩm liên quan
+                const filtered = res.data.filter(p => p.id != currentId).slice(0, 3);
+                
+                const grid = document.getElementById('relatedGrid');
+                if (filtered.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: var(--text-muted);">Không có sản phẩm liên quan khác.</p>';
+                    return;
+                }
+
+                grid.innerHTML = filtered.map(p => `
+                    <div class="card">
+                        <span class="card-tag">${p.category.toUpperCase()}</span>
+                        <a href="product-detail.html?id=${p.id}" style="display:block; text-align:center; background:#fff; padding:10px;">
+                            <img src="${p.image}" alt="${p.name}" class="card-img" style="object-fit:contain; height:200px;" onerror="this.src='https://placehold.co/400x300/ffffff/000000?text=Product'">
+                        </a>
+                        <div class="card-content">
+                            <h3 class="card-title">
+                                <a href="product-detail.html?id=${p.id}" style="color: inherit; text-decoration: none;">${p.name}</a>
+                            </h3>
+                            <p class="card-desc">${p.description.substring(0, 50)}...</p>
+                            <div class="card-footer">
+                                <span class="card-price">${formatCurrency(p.price)}</span>
+                                <button class="btn-outline" onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.image}')">Mua Ngay</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+    </script>
+</body>
+</html>

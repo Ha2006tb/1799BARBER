@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GentleBarber - Premium Men's Grooming & Salon</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <img src="uploads/logo.png" alt="GentleBarber Logo" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+            <span>GentleBarber</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="services.html">Bảng giá & Combo</a></li>
+            <li><a href="lookbook.html">Lookbook</a></li>
+            <li><a href="store.html">Gentle Store</a></li>
+            <li><a href="branches.html">Chi nhánh</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+            <li><a href="face-recommend.html">Thử Kiểu Tóc Ảo</a></li>
+        </ul>
+        <div class="nav-actions">
+            </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-subtitle">★ NGHỆ THUẬT TẠO KIỂU TÓC NAM ĐỈNH CAO ★</span>
+            
+            <h1 class="hero-title">
+                Định Hình Phong Cách<br>
+                <span style="background: linear-gradient(90deg, #d4af37, #f5e8b3, #d4af37); 
+                             -webkit-background-clip: text; 
+                             -webkit-text-fill-color: transparent;">
+                    Chuẩn Quý Ông
+                </span>
+            </h1>
+            
+            <p class="hero-desc">
+                Không gian sang trọng, dịch vụ tinh tế và bàn tay tài hoa của những Master Barber hàng đầu. 
+                Chúng tôi không chỉ cắt tóc — chúng tôi kiến tạo phong cách và sự tự tin cho phái mạnh.
+            </p>
+
+            <div class="hero-cta">
+                <a href="booking.html" class="btn-gold">Đặt Lịch Ngay ✂️</a>
+                <a href="lookbook.html" class="btn-outline">Khám Phá Lookbook</a>
+            </div>
+
+            <p style="margin-top: 35px; font-size: 15.5px; color: var(--gold); font-style: italic; letter-spacing: 1px; opacity: 0.95;">
+                "Từ mái tóc — Chúng tôi định hình phẩm giá người đàn ông"
+            </p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="section-header">
+            <span class="section-subtitle">Dịch vụ nổi bật</span>
+            <h2 class="section-title">Bảng Giá & Combo Độc Quyền</h2>
+        </div>
+        <div class="grid" id="servicesGrid">
+            <p style="text-align: center; grid-column: 1/-1;">Đang tải danh sách dịch vụ...</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 45px;">
+            <a href="services.html" 
+               class="btn-gold" 
+               style="padding: 16px 48px; font-size: 17px; font-weight: 700; border-radius: 50px;">
+                Xem Toàn Bộ Bảng Giá →
+            </a>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-card);">
+        <div class="section-header">
+            <span class="section-subtitle">Xu hướng 2026</span>
+            <h2 class="section-title">Bộ Sưu Tập Kiểu Tóc Thịnh Hành</h2>
+        </div>
+        
+        <div class="grid" id="lookbookGrid" 
+             style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+                    gap: 20px; 
+                    max-width: 1600px; 
+                    margin: 0 auto;">
+            <p style="text-align: center; grid-column: 1/-1;">Đang tải bộ sưu tập xu hướng...</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="lookbook.html" 
+               class="btn-gold" 
+               style="padding: 16px 48px; font-size: 17px; font-weight: 700; border-radius: 50px;">
+                Xem Toàn Bộ Lookbook →
+            </a>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <span class="section-subtitle">Đội ngũ chuyên gia</span>
+            <h2 class="section-title">Các Stylist Hàng Đầu</h2>
+        </div>
+        <div class="grid" id="stylistsGrid">
+            <p style="text-align: center; grid-column: 1/-1;">Đang tải thông tin chuyên gia...</p>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-card);">
+        <div class="section-header">
+            <span class="section-subtitle">Mỹ phẩm nam chính hãng</span>
+            <h2 class="section-title">GentleBarber Store</h2>
+        </div>
+        <div class="grid" id="productsGrid">
+            <p style="text-align: center; grid-column: 1/-1;">Đang tải danh sách sản phẩm...</p>
+        </div>
+        <div style="text-align: center; margin-top: 45px;">
+            <a href="store.html" 
+               class="btn-gold" 
+               style="padding: 16px 48px; font-size: 17px; font-weight: 700; border-radius: 50px;">
+                Khám Phá Cửa Hàng →
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="brand" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <img src="uploads/logo.png" alt="Logo" style="height: 35px;" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+                    <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--gold);">GentleBarber</span>
+                </a>
+                <p style="color: var(--text-muted); font-size: 14px;">Hệ thống cắt tóc nam & chăm sóc da cao cấp hàng đầu dành cho phái mạnh.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Dịch Vụ</h4>
+                <ul class="footer-links">
+                    <li><a href="services.html">Shine Combo 10 Bước</a></li>
+                    <li><a href="services.html">Cắt tóc tạo kiểu</a></li>
+                    <li><a href="services.html">Uốn & Nhuộm cao cấp</a></li>
+                    <li><a href="services.html">Chăm sóc da mặt</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Khám Phá</h4>
+                <ul class="footer-links">
+                    <li><a href="lookbook.html">Lookbook 2026</a></li>
+                    <li><a href="store.html">Gentle Store</a></li>
+                    <li><a href="booking.html">Đặt lịch trực tuyến</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Liên Hệ</h4>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Hotline: 0999.999.999</p>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Email: support@gentlebarber.com</p>
+                <p style="color: var(--text-muted); font-size: 14px;">Địa chỉ: 123 Đường ABC, Quận 1, TP. HCM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GentleBarber. All rights reserved. Designed for Gentlemen.</p>
+        </div>
+    </footer>
+
+    <div id="galleryLightbox" class="lightbox" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;">
+        <span style="position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer;" onclick="document.getElementById('galleryLightbox').style.display='none'">&times;</span>
+        <img id="lightboxImg" style="max-width: 85%; max-height: 85%; border-radius: 8px; border: 2px solid var(--gold);">
+    </div>
+
+    <div class="page-transition" id="pageTransition"></div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Tự động kích hoạt gạch chân menu chính xác theo trang hiện tại (Hỗ trợ thay thế class cứng)
+            const currentPath = window.location.pathname.split("/").pop() || "index.html";
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // 1. Load Services (Lấy tối đa 5 dịch vụ làm nổi bật)
+            const resServices = await apiFetch('services.php');
+            if (resServices.success && resServices.data) {
+                const html = resServices.data.slice(0, 5).map(s => `
+                    <div class="card">
+                        <span class="card-tag">${s.category.toUpperCase()}</span>
+                        <a href="service-detail.html?id=${s.id}">
+                            <img src="${s.image}" alt="${s.name}" class="card-img" onerror="this.src='https://placehold.co/400x300/333333/d4af37?text=Service'">
+                        </a>
+                        <div class="card-content">
+                            <h3 class="card-title"><a href="service-detail.html?id=${s.id}">${s.name}</a></h3>
+                            <p class="card-desc">${s.description}</p>
+                            <div class="card-footer">
+                                <span class="card-price">${formatCurrency(s.price)}</span>
+                                <a href="booking.html?service_id=${s.id}" class="btn-gold">Đặt Lịch</a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                document.getElementById('servicesGrid').innerHTML = html;
+            }
+
+            // 2. Load Lookbooks (Hiển thị tối đa 10 mẫu tóc đón đầu xu hướng)
+            const resLookbooks = await apiFetch('lookbooks.php');
+            if (resLookbooks.success && resLookbooks.data) {
+                window.indexLookbooks = resLookbooks.data.slice(0, 10); 
+                
+                const html = window.indexLookbooks.map((l, index) => `
+                    <div class="card lookbook-card">
+                        <img src="${l.image}" alt="${l.title}" class="card-img" 
+                             style="height: 260px; object-fit: cover; cursor: pointer;" 
+                             onclick="openLookbookGallery(${index}, window.indexLookbooks)">
+                        
+                        <div class="card-content" style="display: flex; flex-direction: column; height: calc(100% - 260px); justify-content: space-between;">
+                            <h3 class="card-title" style="cursor: pointer;" 
+                                onclick="openLookbookGallery(${index}, window.indexLookbooks)">${l.title}</h3>
+                            <p class="card-desc">${l.description}</p>
+                            <p style="color: var(--gold); font-size: 13px; margin: 12px 0 18px;">
+                                ✓ Hợp với: <strong>${l.face_shape_suitable}</strong>
+                            </p>
+                            <a href="booking.html?notes=${encodeURIComponent('Chọn kiểu tóc: ' + l.title)}" 
+                               class="btn-outline">Đặt Lịch Kiểu Này</a>
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('lookbookGrid').innerHTML = html;
+            }
+
+            // 3. Load Stylists (Lấy tối đa 5 Barber xuất sắc)
+            const resStylists = await apiFetch('stylists.php');
+            if (resStylists.success && resStylists.data) {
+                const html = resStylists.data.slice(0, 5).map(st => `
+                    <div class="card" style="text-align: center;">
+                        <img src="${st.avatar}" alt="${st.name}" class="card-img" style="height: 280px; object-fit: cover; border-radius: 16px 16px 0 0;" onerror="this.src='https://placehold.co/400x400/333333/d4af37?text=Stylist'">
+                        <div class="card-content">
+                            <h3 class="card-title">${st.name}</h3>
+                            <p style="color: var(--gold); font-weight: 700; margin-bottom: 10px;">★ ${st.rating} (${st.experience})</p>
+                            <p class="card-desc">${st.bio}</p>
+                            <a href="booking.html?stylist_id=${st.id}" class="btn-gold">Chọn Stylist Này</a>
+                        </div>
+                    </div>
+                `).join('');
+                document.getElementById('stylistsGrid').innerHTML = html;
+            }
+
+            // 4. Load Products (Lấy tối đa 5 sản phẩm bán chạy - Đã xử lý chống lỗi XSS bảo mật dữ liệu)
+            const resProducts = await apiFetch('products.php');
+            if (resProducts.success && resProducts.data) {
+                window.cachedProducts = resProducts.data.slice(0, 5);
+                const html = window.cachedProducts.map((p, idx) => `
+                    <div class="card">
+                        <span class="card-tag">${p.category.toUpperCase()}</span>
+                        <img src="${p.image}" alt="${p.name}" class="card-img" onerror="this.src='https://placehold.co/400x300/333333/d4af37?text=Product'">
+                        <div class="card-content">
+                            <h3 class="card-title">${p.name}</h3>
+                            <p class="card-desc">${p.description}</p>
+                            <div class="card-footer">
+                                <span class="card-price">${formatCurrency(p.price)}</span>
+                                <button onclick="addToCartByIndex(${idx})" class="btn-outline">Thêm Giỏ Hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                document.getElementById('productsGrid').innerHTML = html;
+            }
+        });
+
+        // Hàm bổ trợ xử lý thêm sản phẩm an toàn bằng Index, không bóc chuỗi JSON thô trực tiếp trên thẻ
+        function addToCartByIndex(index) {
+            if (window.cachedProducts && window.cachedProducts[index]) {
+                addToCart(window.cachedProducts[index]);
+            }
+        }
+
+        // Định nghĩa nhanh hàm xem ảnh nếu app.js chưa kịp cấu trúc
+        function openLookbookGallery(index, list) {
+            if(list && list[index]) {
+                document.getElementById('lightboxImg').src = list[index].image;
+                document.getElementById('galleryLightbox').style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>

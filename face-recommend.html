@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thử Kiểu Tóc Theo Khuôn Mặt - GentleBarber</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Đổi ảnh nền cho riêng trang này và căn giữa toàn bộ nội dung */
+        body {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('uploads/face-background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        /* Thu nhỏ bớt khoảng cách vùng upload ban đầu */
+        .face-hero {
+            background: linear-gradient(135deg, rgba(31, 31, 31, 0.9) 0%, rgba(10, 10, 10, 0.9) 100%);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+            max-width: 800px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        .face-hero:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 35px 80px rgba(212, 175, 55, 0.2);
+        }
+        .camera-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+
+        /* TẠO GIAO DIỆN 2 CỘT SAU KHI UP ẢNH XONG */
+        .flex-result-container {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            align-items: flex-start;
+            text-align: left !important;
+            margin-top: 40px;
+        }
+
+        /* Cột bên trái: Chứa ảnh chân dung của khách */
+        .result-left {
+            flex: 1;
+            max-width: 380px;
+            text-align: center;
+            position: sticky;
+            top: 140px; /* Giữ cố định ảnh khi cuộn xem các kiểu tóc */
+        }
+        .result-left img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.85);
+        }
+
+        /* Cột bên phải: Chứa kết quả chữ và lưới danh sách kiểu tóc gợi ý */
+        .result-right {
+            flex: 2;
+        }
+
+        /* Định dạng lưới hiển thị các thẻ kiểu tóc (mỗi hàng 2 kiểu gọn gàng) */
+        .custom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        /* Responsive: Nếu màn hình điện thoại quá nhỏ tự động xếp dọc lại thành 1 cột */
+        @media (max-width: 768px) {
+            .flex-result-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .result-left {
+                position: static;
+                max-width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <img src="uploads/logo.png" alt="GentleBarber Logo" onerror="this.src='https://placehold.co/100x40/d4af37/000000?text=GentleBarber'">
+            <span>GentleBarber</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="services.html">Bảng giá & Combo</a></li>
+            <li><a href="lookbook.html">Lookbook</a></li>
+            <li><a href="store.html">Gentle Store</a></li>
+            <li><a href="branches.html">Chi nhánh</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+            <li><a href="face-recommend.html" class="active">Thử Kiểu Tóc Ảo</a></li>
+        </ul>
+        <div class="nav-actions"></div>
+    </nav>
+
+    <div style="max-width: 1150px; margin: 140px auto; padding: 20px; text-align: center;">
+        <h1 style="font-size: 48px; margin-bottom: 16px; letter-spacing: -1px;">Thử Kiểu Tóc Theo Khuôn Mặt</h1>
+        <p style="color: var(--text-muted); font-size: 19px; max-width: 720px; margin: 0 auto 50px;">
+            Công nghệ AI cao cấp phân tích cấu trúc khuôn mặt và gợi ý những kiểu tóc nam đẳng cấp nhất dành riêng cho bạn
+        </p>
+
+        <div class="face-hero" id="uploadHero" onclick="document.getElementById('faceUpload').click()">
+            <input type="file" id="faceUpload" accept="image/*" style="display: none;">
+            <div class="camera-icon">📸</div>
+            <h3 style="font-size: 26px; margin-bottom: 16px;">Upload ảnh khuôn mặt của bạn</h3>
+            <p style="color: var(--text-muted); font-size: 16.5px; line-height: 1.7;">
+                Ảnh rõ nét, chính diện, ánh sáng tốt<br>
+                <strong>Không đeo kính tối màu • Không che nửa khuôn mặt</strong>
+            </p>
+        </div>
+
+        <div id="resultArea" style="display: none;">
+            <div class="flex-result-container">
+                
+                <div class="result-left">
+                    <p style="color: var(--text-muted); margin-bottom: 12px; font-size: 15px; text-align: left;">📸 Ảnh khuôn mặt của bạn:</p>
+                    <img id="facePreview" alt="Ảnh khuôn mặt của bạn">
+                    <h2 id="faceShapeResult" style="color: var(--gold); font-size: 22px; margin-top: 25px; line-height: 1.4; text-align: center; background: rgba(214,175,55,0.1); padding: 15px; border-radius: 12px; border: 1px dashed var(--gold);">
+                        Đang phân tích dữ liệu khuôn mặt...
+                    </h2>
+                </div>
+
+                <div class="result-right">
+                    <h3 style="margin-bottom: 25px; color: #e0e0e0; font-size: 22px;">✂️ Kiểu tóc được gợi ý dựa trên khuôn mặt:</h3>
+                    
+                    <div class="custom-grid" id="recommendedGrid">
+                    </div>
+
+                    <div style="margin-top: 40px; text-align: left;">
+                        <button onclick="location.reload()" class="btn-outline" style="padding: 14px 40px; font-size: 16px;">
+                            🔄 Thử lại với ảnh khác
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.getElementById('faceUpload').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // 1. Đọc file và hiển thị ảnh chân dung lập tức
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                document.getElementById('facePreview').src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // 2. Chuyển đổi trạng thái giao diện vùng hiển thị
+            document.getElementById('uploadHero').style.display = 'none';
+            document.getElementById('resultArea').style.display = 'block';
+            document.getElementById('faceShapeResult').innerHTML = `🔄 Đang phân tích khuôn mặt...`;
+            document.getElementById('recommendedGrid').innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">AI đang tính toán kiểu tóc tối ưu...</p>`;
+
+            // 3. Đóng gói dữ liệu ảnh gửi lên Server API
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                if (typeof showToast === 'function') {
+                    showToast('Đang kết nối hệ thống phân tích AI...', 'info');
+                }
+
+                const res = await fetch('api/face-analysis.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    const shape = data.data.face_shape;
+                    document.getElementById('faceShapeResult').innerHTML = 
+                        `Khuôn mặt của bạn thuộc loại: <strong style="color: #fff; text-transform: uppercase;">${shape}</strong>`;
+
+                    // Gọi hàm tìm kiếm kiểu tóc tương thích
+                    recommendHairstyles(shape);
+                } else {
+                    alert(data.message || "Không thể phân tích được ảnh này. Hãy thử lại với ảnh rõ nét hơn.");
+                    location.reload();
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Lỗi kết nối Server AI. Vui lòng thử lại.");
+                location.reload();
+            }
+        });
+
+        async function recommendHairstyles(faceShape) {
+            try {
+                const res = await apiFetch('lookbooks.php');
+                if (!res.success || !res.data) return;
+
+                // Hàm loại bỏ dấu tiếng Việt và chuẩn hóa chuỗi dữ liệu so sánh
+                const cleanString = (str) => {
+                    if (!str) return '';
+                    return str.normalize('NFD')
+                              .replace(/[\u0300-\u036f]/g, '')
+                              .toLowerCase()
+                              .replace(/khuon mat/g, '')
+                              .replace(/mat/g, '')
+                              .trim();
+                };
+
+                const searchShape = cleanString(faceShape);
+
+                // Lọc danh sách kiểu tóc tương thích dáng mặt từ Database
+                const filteredHairstyles = res.data.filter(item => {
+                    const suitableFaces = cleanString(item.face_shape_suitable);
+                    
+                    if (suitableFaces.includes('moi') || suitableFaces.includes('tat ca')) {
+                        return true;
+                    }
+                    return suitableFaces.includes(searchShape);
+                });
+
+                let html = '';
+                if (filteredHairstyles.length > 0) {
+                    html = filteredHairstyles.map(item => {
+                        // Giả định ID dịch vụ Cắt tóc nam tiêu chuẩn mặc định là 1.
+                        const targetServiceId = 1; 
+                        const bookingUrl = `booking.html?service_id=${targetServiceId}&notes=${encodeURIComponent('Chọn kiểu: ' + item.title)}`;
+
+                        return `
+                            <div class="hairstyle-card" style="background: #1a1a1a; border: 1px solid #333; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <img src="${item.image}" alt="${item.title}" style="width: 100%; height: 220px; object-fit: cover;">
+                                    <div style="padding: 15px;">
+                                        <h3 style="color: #ffcc00; font-size: 18px; margin: 0 0 8px 0;">${item.title}</h3>
+                                        <p style="color: #bbb; font-size: 14px; line-height: 1.4; margin: 0 0 10px 0;">${item.description || ''}</p>
+                                        <span style="font-size: 12px; background: #2a2a2a; color: #ffcc00; padding: 4px 8px; border-radius: 4px;">
+                                            Phù hợp: ${item.face_shape_suitable}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div style="padding: 15px; pt: 0;">
+                                    <a href="${bookingUrl}" class="btn-gold" style="display: block; text-align: center; background: #ffcc00; color: #000; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: bold;">
+                                        Đặt Lịch Kiểu Này
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    html = `<p style="grid-column: 1/-1; text-align: center; color: #aaa; padding: 4px 0;">Không tìm thấy kiểu tóc nào phù hợp riêng cho khuôn mặt này.</p>`;
+                }
+
+                document.getElementById('recommendedGrid').innerHTML = html;
+
+            } catch (error) {
+                console.error("Lỗi khi gợi ý kiểu tóc:", error);
+                document.getElementById('recommendedGrid').innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Đã xảy ra lỗi khi tải danh sách kiểu tóc gợi ý.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
