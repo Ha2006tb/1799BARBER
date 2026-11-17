@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bộ Sưu Tập Kiểu Tóc - GentleBarber</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=10">
 </head>
 <body>
 
@@ -67,7 +67,7 @@
             <div class="footer-col">
                 <h4>Liên Hệ</h4>
                 <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Hotline: 0999.999.999</p>
-                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Email: support@gentlebarber.com</p>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">Email: support@GentleBarber.com</p>
                 <p style="color: var(--text-muted); font-size: 14px;">Địa chỉ: 123 Đường ABC, Quận 1, TP. HCM</p>
             </div>
         </div>
@@ -76,9 +76,35 @@
         </div>
     </footer>
 
-    <div id="galleryLightbox" class="lightbox" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;">
-        <span style="position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer;" onclick="document.getElementById('galleryLightbox').style.display='none'">&times;</span>
-        <img id="lightboxImg" style="max-width: 85%; max-height: 85%; border-radius: 8px; border: 2px solid var(--gold);">
+    <div id="galleryLightbox" class="lightbox" onclick="if(event.target === this) this.style.display='none'" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.88); justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);">
+        <div style="background: #181818; border: 1px solid var(--gold); border-radius: 20px; max-width: 900px; width: 100%; display: flex; flex-wrap: wrap; overflow: hidden; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.9); max-height: 90vh;">
+            <span style="position: absolute; top: 15px; right: 20px; color: #fff; font-size: 32px; font-weight: bold; cursor: pointer; z-index: 10; line-height: 1;" onclick="document.getElementById('galleryLightbox').style.display='none'">&times;</span>
+            
+            <!-- Cột trái: Ảnh chính + Ảnh góc phụ -->
+            <div style="flex: 1 1 360px; background: #0d0d0d; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+                <img id="lightboxImg" style="width: 100%; max-height: 380px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(212,175,55,0.4);">
+                <div id="lightboxThumbs" style="display: flex; gap: 10px; margin-top: 12px; justify-content: center;"></div>
+            </div>
+
+            <!-- Cột phải: Tên, Khuôn mặt phù hợp, Mô tả & Nút đặt lịch -->
+            <div style="flex: 1.2 1 380px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; max-height: 85vh;">
+                <div>
+                    <span style="color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Chi tiết kiểu tóc</span>
+                    <h2 id="lightboxTitle" style="font-size: 26px; color: #fff; margin: 8px 0 12px; line-height: 1.3;"></h2>
+                    <div style="display: inline-block; background: rgba(212, 175, 55, 0.12); border: 1px solid rgba(212, 175, 55, 0.3); color: var(--gold); padding: 6px 14px; border-radius: 20px; font-size: 13px; margin-bottom: 18px;">
+                        ✓ Hợp với: <strong id="lightboxFace"></strong>
+                    </div>
+                    <p id="lightboxDesc" style="color: #e0e0e0; font-size: 15px; line-height: 1.6; margin-bottom: 15px;"></p>
+                    <div id="lightboxContentBox" style="border-top: 1px solid #2a2a2a; padding-top: 15px; margin-top: 10px; display: none;">
+                        <h4 style="color: var(--gold); font-size: 14px; margin-bottom: 8px;">💡 Tư vấn tạo kiểu & Chăm sóc:</h4>
+                        <p id="lightboxContent" style="color: #aaa; font-size: 14px; line-height: 1.6; white-space: pre-line;"></p>
+                    </div>
+                </div>
+                <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #2a2a2a;">
+                    <a id="lightboxBookBtn" href="booking.html" class="btn-gold" style="width: 100%; justify-content: center; text-align: center; display: block; padding: 14px; font-size: 16px;">Đặt Lịch Kiểu Tóc Này ✂️</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/app.js"></script>
@@ -122,8 +148,35 @@
 
         // Hàm điều khiển popup hiển thị ảnh lớn phóng to
         function openLookbookGallery(index, list) {
-            if(list && list[index]) {
-                document.getElementById('lightboxImg').src = list[index].image;
+            if (list && list[index]) {
+                const item = list[index];
+                document.getElementById('lightboxImg').src = item.image;
+                document.getElementById('lightboxTitle').innerText = item.title;
+                document.getElementById('lightboxFace').innerText = item.face_shape_suitable || 'Mọi khuôn mặt';
+                document.getElementById('lightboxDesc').innerText = item.description || '';
+                document.getElementById('lightboxBookBtn').href = `booking.html?notes=${encodeURIComponent('Chọn kiểu tóc: ' + item.title)}`;
+
+                // Hiển thị bài viết tư vấn chi tiết (nếu admin có nhập)
+                const contentBox = document.getElementById('lightboxContentBox');
+                if (item.content && item.content.trim() !== '') {
+                    document.getElementById('lightboxContent').innerText = item.content;
+                    contentBox.style.display = 'block';
+                } else {
+                    contentBox.style.display = 'none';
+                }
+
+                // Hiển thị thêm ảnh góc 2, góc 3 (nếu có) để khách bấm đổi góc nhìn
+                const images = [item.image, item.image2, item.image3].filter(img => img && img.trim() !== '');
+                const thumbsContainer = document.getElementById('lightboxThumbs');
+                if (images.length > 1) {
+                    thumbsContainer.innerHTML = images.map(imgUrl => `
+                        <img src="${imgUrl}" onclick="document.getElementById('lightboxImg').src='${imgUrl}'" 
+                             style="width: 55px; height: 55px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 1px solid var(--gold);">
+                    `).join('');
+                } else {
+                    thumbsContainer.innerHTML = '';
+                }
+
                 document.getElementById('galleryLightbox').style.display = 'flex';
             }
         }

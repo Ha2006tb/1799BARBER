@@ -2,8 +2,8 @@
 
 :root {
     --bg-main: #0d0d0d;
-    --bg-card: #1a1a1a;
-    --bg-card-hover: #262626;
+    --bg-card: rgba(24, 24, 24, 0.78);
+    --bg-card-hover: rgba(38, 38, 38, 0.9);
     --gold: #d4af37;
     --gold-light: #f3e5ab;
     --gold-dark: #aa8c2c;
@@ -27,12 +27,18 @@
 
 body {
     background-color: var(--bg-main);
+    background-image: 
+        linear-gradient(to bottom, rgba(13, 13, 13, 0.65), rgba(13, 13, 13, 0.75)),
+        url('../uploads/face-background.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: var(--text-main);
     font-family: var(--font-body);
     line-height: 1.6;
     overflow-x: hidden;
 }
-
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 700;
@@ -278,6 +284,8 @@ button {
 
 .card {
     background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border-color);
     border-radius: 16px;
     overflow: hidden;
@@ -943,4 +951,11 @@ button {
 
 #productsGrid .product-card .card-footer {
     margin-top: auto !important;
+}
+.navbar {
+    background: rgba(15, 15, 15, 0.82) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    transition: all 0.3s ease;
 }
